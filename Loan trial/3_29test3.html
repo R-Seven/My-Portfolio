@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Title</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  </head>
+  <body>
+
+
+        <div class="container">
+            <div class="row mt-5">
+                <div class="col-10 text-center">
+                    <h3>貸款金額試算</h3>
+                </div>
+            </div>
+        </div><br>>
+        <div class="form-group row">
+            <label for="yAmount" class="col-3 col-form-label text-right">貸款金額</label>
+            <div class="input-group col-5">
+                <input type="text" class="form-control" id="yAmount" />
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="yRate" class="col-3 col-form-label text-right">年利率</label>
+            <div class="input-group col-5">
+                <input type="text" class="form-control" id="yRate" />
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="yLoan" class="col-3 col-form-label text-right">貸款總期數</label>
+            <div class="input-group col-5">
+                <input type="text" class="form-control" id="yLoan" />
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="txtTaxAmount" class="col-3 col-form-label text-right">平均每月應攤付本息金額</label>
+            <div class="input-group col-5">
+                <input type="text" class="form-control" id="Amount" readonly="readonly" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-5"></div>
+            <div class="col-2 mt-5">
+                <button type="button" id="calculate" class="btn btn-primary">計算</button>
+            </div>
+            <div class="col-5"></div>
+        </div>
+
+    <script>
+
+        var LoanCalculator = function(YR, YL, YA) {
+            var _mRate = YR / 12;
+            var _amount = YA;
+            var _mLoan = YL * 12;
+            var _aRate = ((Math.pow(1+_mRate, _mLoan)) * _mRate) / ((Math.pow(1+_mRate, _mLoan)) - 1);
+            
+            this.getMonthlyPayAmount = function() {
+                return Math.floor(_amount * _aRate);
+            }
+            
+            this.getTotalFinalPayAmount = function() {
+                return Math.floor(this.getMonthlyPayAmount() * _mLoan);
+            }
+            
+            this.getMonthlyPayRateAmount = function() {
+                return Math.floor(this.getMonthlyPayAmount() - (_amount / _mLoan));
+            }
+        }
+        
+        var calculate = document.getElementById("calculate");
+        calculate.onclick = function()
+        {
+            var YR = document.getElementById("yRate").value;
+            var YL = document.getElementById("yLoan").value;
+            var YA = document.getElementById("yAmount").value;
+
+            //var calculator = new LoanCalculator(YR, YL, YA);
+            var _mRate = YR / 12;
+            var _amount = YA;
+            var _mLoan = YL * 12;
+            var _aRate = ((Math.pow(1+_mRate, _mLoan)) * _mRate) / ((Math.pow(1+_mRate, _mLoan)) - 1);
+            var total = _aRate * YA;
+
+            document.getElementById("Amount").value = total;
+
+
+            /*document.write(calculator.getMonthlyPayAmount());
+            document.write("<br />");
+            document.write(calculator.getTotalFinalPayAmount());
+            document.write("<br />");
+            document.write(calculator.getMonthlyPayRateAmount());*/
+        }
+
+
+    </script>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.9/js/all.js" integrity="sha384-8iPTk2s/jMVj81dnzb/iFR2sdA7u06vHJyyLlAd4snFpCl/SnyUjRrbdJsw1pGIl" crossorigin="anonymous"></script>
+  </body>
+</html>
